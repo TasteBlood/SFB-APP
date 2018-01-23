@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">丝路施肥</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="value">&lt;15</string>
+    <string name="farmerName">农户信命</string>
+    <string name="elementN">氮</string>
+    <string name="elementP">磷</string>
+    <string name="elementK">钾</string>
+    <string name="ph">有机物</string>
+</resources>

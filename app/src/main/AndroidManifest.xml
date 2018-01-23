@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhkj.sfb">
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+
+    <application
+        android:name=".common.LocationApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="AhgRpuGGD8buAGbOaHIACoGMekKFRM18" />
+
+        <activity
+            android:name=".MainActivity"
+            android:hardwareAccelerated="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LocationActivity" />
+        <activity android:name=".TabLayoutActivity" />
+        <activity android:name=".ElementActivity" />
+        <activity android:name=".ServiceActivity" />
+        <activity android:name=".CenterProfileActivity" />
+        <activity android:name=".ExpertActivity" />
+        <activity android:name=".ServiceGuideActivity" />
+        <activity android:name=".FertilizerInfoActivity" />
+        <activity android:name=".ForumActivity" />
+        <activity android:name=".ForumOneActivity" />
+        <activity android:name=".ForumTwoActivity" />
+        <activity android:name=".ForumThreeActivity" />
+        <activity android:name=".ForumFourActivity" />
+        <activity android:name=".PolicyActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".AboutHelpActivity" />
+        <activity android:name=".AboutReliefActivity" />
+        <activity android:name=".AboutIncActivity" />
+        <activity android:name=".OnlineActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".FarmerActivity" />
+        <activity android:name=".CityActivity" />
+        <activity android:name=".HistoryDetailActivity" />
+        <activity android:name=".DownloadActivity" />
+
+        <service android:name=".UpdateVersionService" />
+
+        <activity android:name=".CropActivity" />
+        <activity android:name=".FarmerInfoActivity" />
+        <activity android:name=".FeatureActivity" />
+        <activity android:name=".FertilizateDetailActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </application>
+
+</manifest>
