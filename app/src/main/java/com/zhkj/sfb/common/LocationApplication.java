@@ -15,17 +15,27 @@ import com.baidu.mapapi.SDKInitializer;
  * 直接拷贝com.baidu.location.service包到自己的工程下，简单配置即可获取定位结果，也可以根据demo内容自行封装
  */
 public class LocationApplication extends Application {
+    public static LocationApplication instance;
 	public LocationService locationService;
     public Vibrator mVibrator;
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         /***
          * 初始化定位sdk，建议在Application中创建
          */
         locationService = new LocationService(getApplicationContext());
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.initialize(this);
        
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        System.exit(0);
+        instance = null;
+        locationService = null;
     }
 }

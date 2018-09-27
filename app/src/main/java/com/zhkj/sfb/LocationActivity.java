@@ -267,8 +267,9 @@ public class LocationActivity extends BasetActivity implements OnGetDistricSearc
             if(areaPojo!=null){
                 city =areaPojo.getCityName();
                 gisUrl = areaPojo.getGisUrl();
+                tel= areaPojo.getTelephone();
             }
-            tel= areaPojo.getTelephone();
+
             if (city==null || city.equals("")) {
                 city = "酒泉市";
             }
@@ -284,7 +285,7 @@ public class LocationActivity extends BasetActivity implements OnGetDistricSearc
                 String results = ServiceUtil.sendPostRequest(URL1,param);
                 CommonBean commonBeans = OutJsonUtil.json2Bean(results,CommonBean.class);
                 String infos = OutJsonUtil.toJson(commonBeans.getInfo());
-                if(commonBeans!=null && commonBeans.getStatus()==200){
+                if(commonBeans.getStatus()==200){
                     areaPojo = OutJsonUtil.json2Bean(infos,AreaPojo.class);
                 }
                 return  results;
@@ -415,8 +416,8 @@ public class LocationActivity extends BasetActivity implements OnGetDistricSearc
                     public void onClick(View v) {
 
                         String data = dataAmountView.getText().toString();
-                        if (data.equals("") || data==null){
-                            Toast.makeText(LocationActivity.this,"请填写目标产量",Toast.LENGTH_LONG);
+                        if (data.equals("")){
+                            Toast.makeText(LocationActivity.this,"请填写目标产量",Toast.LENGTH_LONG).show();
                             return;
                         }else{
                             amount = Integer.parseInt(data);

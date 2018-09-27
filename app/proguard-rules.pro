@@ -8,6 +8,14 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+-keep class com.baidu.**{*;}
+-keep class vi.com.gdi.bgl.**{*;}
+-keep class com.google.gson.**{*;}
+
+# Gson specific classes
+-keep class com.google.gson.stream.** { *; }
+-keep class com.zhkj.sfb.pojo.**{*;}
+-keep class com.zhkj.sfb.common.CommonBean {*;}
 
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface

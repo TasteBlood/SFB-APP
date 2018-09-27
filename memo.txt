@@ -1,0 +1,10 @@
+百度地图开放中心登录账号：
+账号：18193104016  密码:hello1234
+
+百度地图开放中心app AK:
+t2hnG3PUXDAl7bXfGt7AC6MebbVoj6y7
+
+keystore.jks 打包密匙的路径就在项目当中(具体密码配置也可以在app->build.gradle文件中找到)
+keystore password:slsfapp
+keystore alias:slsf
+keystore alias password:slsfapp

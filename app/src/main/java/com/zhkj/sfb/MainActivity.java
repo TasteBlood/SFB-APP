@@ -1,12 +1,18 @@
 package com.zhkj.sfb;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +30,7 @@ import com.zhkj.sfb.common.LocationApplication;
 import com.zhkj.sfb.common.LocationService;
 import com.zhkj.sfb.common.OutJsonUtil;
 import com.zhkj.sfb.common.ServiceUtil;
+import com.zhkj.sfb.common.ToastUtils;
 import com.zhkj.sfb.common.WeatherBean;
 import com.zhkj.sfb.common.WeatherResult;
 import com.zhkj.sfb.common.WeatherSK;
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationService locationService;
     private TextView districtView,dayView,weekView,weatherView,degreeCelsiusView,timeView,branchView,humidityView;
     private String district;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,11 +109,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+            locationService = ((LocationApplication) getApplication()).locationService;
+            //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+            locationService.registerListener(mListener);
+            locationService.start();
+        }else{
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},100);
+        }
 
-        locationService = ((LocationApplication) getApplication()).locationService;
-        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
-        locationService.start();
 
 
     }
@@ -145,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... param) {
 
-            String params = "&cityname="+district;
+            //String params = "&cityname="+district;
             try {
                 String URL = "http://v.juhe.cn/weather/index?format=2&key=02090e323c04674ee40cc8e94e93138a&cityname="+district;
                 String result = ServiceUtil.sendPostRequest(URL,"");
@@ -272,43 +284,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
-
-    /**
-     * 监听GPS
-     */
-    public  void initGPS() {
-        Log.d("判断GPS是否打开","");
-        LocationManager locationManager = (LocationManager) this
-                .getSystemService(Context.LOCATION_SERVICE);
-        // 判断GPS模块是否开启，如果没有则开启
-        if (!locationManager
-                .isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(MainActivity.this, "请打开GPS",
-                    Toast.LENGTH_SHORT).show();
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage("请打开GPS");
-            dialog.setPositiveButton("确定",
-                    new android.content.DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            // 转到手机设置界面，用户设置GPS
-                            Intent intent = new Intent(
-                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivityForResult(intent, 0); // 设置完成后返回到原来的界面
-
-                        }
-                    });
-            dialog.setNeutralButton("取消", new android.content.DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    arg0.dismiss();
-                }
-            } );
-            dialog.show();
-        } else {
-        }
-    }
     public  Date getTomorrow() {
         Date date = new Date();
         long time = date.getTime() / 1000L + 86400L;
@@ -376,5 +351,28 @@ public class MainActivity extends AppCompatActivity {
         indexClassPojo9.setImg(R.mipmap.icon_9);
         indexClassPojo9.setName("关于我们");
         indexClassPojos.add(indexClassPojo9);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100){
+            if(Manifest.permission.ACCESS_COARSE_LOCATION.equals(permissions[0])&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                //开启定位
+                locationService = ((LocationApplication) getApplication()).locationService;
+                //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+                locationService.registerListener(mListener);
+                locationService.start();
+            }else{
+                ToastUtils.showToast(this,"请打开手机GPS定位权限");
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //整个注销app
+        LocationApplication.instance.onTerminate();
     }
 }

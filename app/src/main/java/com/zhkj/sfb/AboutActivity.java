@@ -1,4 +1,5 @@
 package com.zhkj.sfb;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,8 +23,6 @@ import com.zhkj.sfb.common.UpdateVersionUtil;
 import com.zhkj.sfb.pojo.VersionInfo;
 
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class AboutActivity extends BasetActivity {
     private String resultData;
